@@ -1,0 +1,263 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  permission Permission[]
+  user       User[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id         Int      @id @default(autoincrement())
+  role_id    Int
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  role       Role     @relation(fields: [role_id], references: [id])
+
+  @@map("permissions")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  role_id    Int
+  name       String
+  password   String
+  email      String   @unique
+  is_active  Boolean
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  role       Role     @relation(fields: [role_id], references: [id])
+
+  @@map("users")
+}
+
+model Position {
+  id         Int         @id @default(autoincrement())
+  name       String
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+  allowences Allowance[]
+  employee   Employee[]
+
+  @@map("positions")
+}
+
+model Level {
+  id         Int        @id @default(autoincrement())
+  name       String
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  employee   Employee[]
+
+  @@map("levels")
+}
+
+model Divisi {
+  id         Int        @id @default(autoincrement())
+  name       String
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  employee   Employee[]
+
+  @@map("devision")
+}
+
+model Province {
+  id         Int        @id @default(autoincrement())
+  code       String
+  name       String
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  city       City[]
+  District   District[]
+
+  @@map("provinces")
+}
+
+model City {
+  id          Int        @id @default(autoincrement())
+  province_id Int
+  code        String
+  name        String
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  province    Province   @relation(fields: [province_id], references: [id])
+  district    District[]
+
+  @@map("cities")
+}
+
+model District {
+  id          Int       @id @default(autoincrement())
+  city_id     Int
+  code        String
+  name        String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  province_id Int?
+  city        City      @relation(fields: [city_id], references: [id])
+  Province    Province? @relation(fields: [province_id], references: [id])
+
+  @@map("districts")
+}
+
+model Employee {
+  id                     Int                     @id @default(autoincrement())
+  user_id                Int
+  position_id            Int
+  division_id            Int
+  level_id               Int
+  address                String
+  nip                    String
+  phone                  String
+  npwp                   String
+  nik                    String
+  jenis_kelamin          String
+  status                 String
+  type                   String
+  hire_date              DateTime
+  salary                 Decimal
+  created_at             DateTime                @default(now())
+  updated_at             DateTime                @updatedAt
+  EmployeeViolation      EmployeeViolation[]
+  Contract               Contract[]
+  employee_allowance     EmployeeAllowance[]
+  division               Divisi                  @relation(fields: [division_id], references: [id])
+  level                  Level                   @relation(fields: [level_id], references: [id])
+  position               Position                @relation(fields: [position_id], references: [id])
+  JobCompetencyStandarts JobCompetencyStandart[]
+  presence               Presence[]
+  WarningLatter          WarningLatter[]
+  WorkOrder              WorkOrder[]
+
+  @@map("employees")
+}
+
+model Presence {
+  id          Int      @id @default(autoincrement())
+  employee_id Int
+  status      String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  employee    Employee @relation(fields: [employee_id], references: [id])
+
+  @@map("presences")
+}
+
+model Contract {
+  id            Int      @id @default(autoincrement())
+  employee_id   Int
+  sign_date     DateTime
+  end_date      DateTime
+  status        String
+  contract_date DateTime
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  employee      Employee @relation(fields: [employee_id], references: [id])
+
+  @@map("contracts")
+}
+
+model WorkOrder {
+  id          Int      @id @default(autoincrement())
+  employee_id Int
+  task        String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  employee    Employee @relation(fields: [employee_id], references: [id])
+
+  @@map("work_orders")
+}
+
+model Allowance {
+  id                 Int                 @id @default(autoincrement())
+  position_id        Int
+  name               String
+  price              Decimal
+  created_at         DateTime            @default(now())
+  updated_at         DateTime            @updatedAt
+  position           Position            @relation(fields: [position_id], references: [id])
+  employee_allowance EmployeeAllowance[]
+  violation          Violation[]
+
+  @@map("allowances")
+}
+
+model Violation {
+  id                     Int       @id @default(autoincrement())
+  name                   String
+  allowance_id           Int
+  is_premi               Boolean
+  salary_cuts_percentage Int       @default(0)
+  salary_cuts_amount     Decimal   @default(0)
+  created_at             DateTime  @default(now())
+  updated_at             DateTime  @updatedAt
+  allowence              Allowance @relation(fields: [allowance_id], references: [id])
+
+  @@map("violations")
+}
+
+model EmployeeAllowance {
+  id           Int       @id @default(autoincrement())
+  employee_id  Int
+  allowance_id Int
+  price        Decimal
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  allowence    Allowance @relation(fields: [allowance_id], references: [id])
+  employee     Employee  @relation(fields: [employee_id], references: [id])
+
+  @@map("employee_allowances")
+}
+
+model JobCompetencyStandart {
+  id          Int      @id @default(autoincrement())
+  jcs_date    DateTime
+  employee_id Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  employee    Employee @relation(fields: [employee_id], references: [id])
+
+  @@map("job_competency_standarts")
+}
+
+model WarningLatter {
+  id           Int      @id @default(autoincrement())
+  employee_id  Int
+  wl_date      DateTime
+  reason       String
+  violation_id Int
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  employee     Employee @relation(fields: [employee_id], references: [id])
+
+  @@map("warning_letters")
+}
+
+model EmployeeViolation {
+  id                     Int      @id @default(autoincrement())
+  violation_id           Int
+  employee_id            Int
+  salary_cuts_percentage Int      @default(0)
+  salary_cuts_amount     Decimal  @default(0)
+  premi_id               Int
+  is_premi               Boolean  @default(false)
+  note                   String?
+  employees              Employee @relation(fields: [employee_id], references: [id])
+  created_at             DateTime @default(now())
+  updated_at             DateTime @updatedAt
+
+  @@map("employee_violations")
+}
