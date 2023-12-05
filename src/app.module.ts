@@ -6,9 +6,10 @@ import { AuthModule } from './features/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './features/auth/guard/auth.guard';
 import { PrismaService } from './service/prisma.service';
+import { RoleModule } from './features/role/role.module';
 
 @Module({
-  imports: [UserModule, AuthModule],
+  imports: [UserModule, AuthModule, RoleModule],
   controllers: [AppController],
   providers: [
     AppService,
