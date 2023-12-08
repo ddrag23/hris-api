@@ -3,6 +3,8 @@ import { Injectable, Inject } from '@nestjs/common';
 
 @Injectable()
 export class CrudService<T, K> {
+  relation: Object | undefined;
+  detailRelation: Object | undefined;
   constructor(
     protected prisma: PrismaService,
     @Inject('model') protected model: string,
@@ -12,11 +14,16 @@ export class CrudService<T, K> {
   }
 
   findAll() {
-    return this.prisma[this.model].findMany();
+    return this.prisma[this.model].findMany(
+      this.relation ? { include: { ...this.relation } } : {},
+    );
   }
 
   findOne(id: number) {
-    return this.prisma[this.model].findUnique({ where: { id } });
+    const include = this.detailRelation
+      ? { include: { ...this.relation } }
+      : {};
+    return this.prisma[this.model].findUnique({ where: { id }, ...include });
   }
 
   update(id: number, updatePositionDto: K) {
