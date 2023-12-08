@@ -185,26 +185,29 @@ model Allowance {
   id                 Int                 @id @default(autoincrement())
   position_id        Int
   name               String
-  price              Decimal
+  price              Decimal             @db.Decimal(15, 2)
   created_at         DateTime            @default(now())
   updated_at         DateTime            @updatedAt
   position           Position            @relation(fields: [position_id], references: [id])
   employee_allowance EmployeeAllowance[]
   violation          Violation[]
+  EmployeeViolation  EmployeeViolation[]
 
   @@map("allowances")
 }
 
 model Violation {
-  id                     Int       @id @default(autoincrement())
+  id                     Int                 @id @default(autoincrement())
   name                   String
   allowance_id           Int
   is_premi               Boolean
-  salary_cuts_percentage Int       @default(0)
-  salary_cuts_amount     Decimal   @default(0)
-  created_at             DateTime  @default(now())
-  updated_at             DateTime  @updatedAt
-  allowence              Allowance @relation(fields: [allowance_id], references: [id])
+  salary_cuts_percentage Int                 @default(0)
+  salary_cuts_amount     Decimal             @default(0)
+  created_at             DateTime            @default(now())
+  updated_at             DateTime            @updatedAt
+  allowence              Allowance           @relation(fields: [allowance_id], references: [id])
+  EmployeeViolation      EmployeeViolation[]
+  WarningLatter          WarningLatter[]
 
   @@map("violations")
 }
@@ -234,30 +237,33 @@ model JobCompetencyStandart {
 }
 
 model WarningLatter {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   employee_id  Int
   wl_date      DateTime
   reason       String
   violation_id Int
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
-  employee     Employee @relation(fields: [employee_id], references: [id])
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  employee     Employee  @relation(fields: [employee_id], references: [id])
+  violation    Violation @relation(fields: [violation_id], references: [id])
 
   @@map("warning_letters")
 }
 
 model EmployeeViolation {
-  id                     Int      @id @default(autoincrement())
+  id                     Int       @id @default(autoincrement())
   violation_id           Int
   employee_id            Int
-  salary_cuts_percentage Int      @default(0)
-  salary_cuts_amount     Decimal  @default(0)
-  premi_id               Int
-  is_premi               Boolean  @default(false)
+  salary_cuts_percentage Int       @default(0)
+  salary_cuts_amount     Decimal   @default(0)
+  allowance_id           Int
+  is_allowance           Boolean   @default(false)
   note                   String?
-  employees              Employee @relation(fields: [employee_id], references: [id])
-  created_at             DateTime @default(now())
-  updated_at             DateTime @updatedAt
+  employees              Employee  @relation(fields: [employee_id], references: [id])
+  allowance              Allowance @relation(fields: [allowance_id], references: [id])
+  violation              Violation @relation(fields: [violation_id], references: [id])
+  created_at             DateTime  @default(now())
+  updated_at             DateTime  @updatedAt
 
   @@map("employee_violations")
 }
