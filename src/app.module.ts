@@ -1,24 +1,37 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './features/user/user.module';
 import { AuthModule } from './features/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './features/auth/guard/auth.guard';
 import { PrismaService } from './service/prisma.service';
-import { RoleModule } from './features/role/role.module';
-import { PositionModule } from './features/position/position.module';
-import { LevelModule } from './features/level/level.module';
-import { AllowanceModule } from './features/allowance/allowance.module';
-import { DevisionModule } from './features/devision/devision.module';
-import { ProvinceModule } from './features/province/province.module';
-import { CityModule } from './features/city/city.module';
-import { DistrictModule } from './features/district/district.module';
-import { ViolationModule } from './features/violation/violation.module';
-import { EmployeeModule } from './features/employee/employee.module';
+import { PositionModule } from './features/master/position/position.module';
+import { LevelModule } from './features/master/level/level.module';
+import { AllowanceModule } from './features/master/allowance/allowance.module';
+import { DevisionModule } from './features/master/devision/devision.module';
+import { ProvinceModule } from './features/master/province/province.module';
+import { CityModule } from './features/master/city/city.module';
+import { DistrictModule } from './features/master/district/district.module';
+import { ViolationModule } from './features/master/violation/violation.module';
+import { UserModule } from './features/setting/user/user.module';
+import { RoleModule } from './features/setting/role/role.module';
+import { EmployeeModule } from './features/setting/employee/employee.module';
 
 @Module({
-  imports: [UserModule, AuthModule, RoleModule, PositionModule, LevelModule, AllowanceModule, DevisionModule, ProvinceModule, CityModule, DistrictModule, ViolationModule, EmployeeModule],
+  imports: [
+    UserModule,
+    AuthModule,
+    RoleModule,
+    PositionModule,
+    LevelModule,
+    AllowanceModule,
+    DevisionModule,
+    ProvinceModule,
+    CityModule,
+    DistrictModule,
+    ViolationModule,
+    EmployeeModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,

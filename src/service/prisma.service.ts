@@ -10,6 +10,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   async paginationTransaction(
     model: string,
     pq: PaginationQuery,
+    relation?: Object,
+    where?: Object,
   ): Promise<Object> {
     let start = +pq.skip > 1 ? +pq.skip * +pq.take - +pq.take : 0;
     const totalData = await this[model].count();
@@ -20,7 +22,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       orderBy: {
         [pq.sortBy]: pq.sortType,
       },
-      include: { category: true },
+      include: relation ? relation : {},
     });
     const currentPage = start / +pq.take + 1;
     return {
