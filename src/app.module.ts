@@ -16,6 +16,8 @@ import { ViolationModule } from './features/master/violation/violation.module';
 import { UserModule } from './features/setting/user/user.module';
 import { RoleModule } from './features/setting/role/role.module';
 import { EmployeeModule } from './features/setting/employee/employee.module';
+import { MasterModule } from './features/master/master.module';
+import { RoutesModule } from './routes/routes.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { EmployeeModule } from './features/setting/employee/employee.module';
     DistrictModule,
     ViolationModule,
     EmployeeModule,
+    MasterModule,
+    RoutesModule,
   ],
   controllers: [AppController],
   providers: [
