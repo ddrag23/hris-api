@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { LevelService } from './level.service';
 import { LevelController } from './level.controller';
-import { CrudService } from '../../service/crud.service';
-import { PrismaService } from '../../service/prisma.service';
+import { CrudService } from 'src/service/crud.service';
+import { PrismaService } from 'src/service/prisma.service';
 
 @Module({
   controllers: [LevelController],

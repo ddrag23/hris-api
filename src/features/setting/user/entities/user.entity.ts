@@ -1,4 +1,4 @@
-import { Role } from 'src/features/role/entities/role.entity';
+import { Role } from '../../role/entities/role.entity';
 
 export class User {
   id: number;

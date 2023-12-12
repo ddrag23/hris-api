@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { PositionService } from './position.service';
 import { PositionController } from './position.controller';
-import { PrismaService } from '../../service/prisma.service';
 import { CrudService } from 'src/service/crud.service';
+import { PrismaService } from 'src/service/prisma.service';
 
 @Module({
   controllers: [PositionController],
