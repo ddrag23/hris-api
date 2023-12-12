@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './features/auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthGuard } from './features/auth/guard/auth.guard';
 import { PrismaService } from './service/prisma.service';
 import { PositionModule } from './features/master/position/position.module';
@@ -18,6 +18,7 @@ import { RoleModule } from './features/setting/role/role.module';
 import { EmployeeModule } from './features/setting/employee/employee.module';
 import { MasterModule } from './features/master/master.module';
 import { RoutesModule } from './routes/routes.module';
+import { TransformationInterceptor } from './interceptos/response.interceptor';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { RoutesModule } from './routes/routes.module';
     AppService,
     PrismaService,
     { provide: APP_GUARD, useClass: AuthGuard },
+    { provide: APP_INTERCEPTOR, useClass: TransformationInterceptor },
   ],
 })
 export class AppModule {}
