@@ -19,6 +19,7 @@ import { EmployeeModule } from './features/setting/employee/employee.module';
 import { MasterModule } from './features/master/master.module';
 import { RoutesModule } from './routes/routes.module';
 import { TransformationInterceptor } from './interceptos/response.interceptor';
+import { SettingModule } from './features/setting/setting.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { TransformationInterceptor } from './interceptos/response.interceptor';
     EmployeeModule,
     MasterModule,
     RoutesModule,
+    SettingModule,
   ],
   controllers: [AppController],
   providers: [
