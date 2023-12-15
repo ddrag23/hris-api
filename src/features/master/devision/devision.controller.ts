@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { DevisionService } from './devision.service';
 import { CreateDevisionDto } from './dto/create-devision.dto';
 import { UpdateDevisionDto } from './dto/update-devision.dto';
 
-@Controller('devision')
+@Controller('division')
 export class DevisionController {
   constructor(private readonly devisionService: DevisionService) {}
 
@@ -23,7 +31,10 @@ export class DevisionController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDevisionDto: UpdateDevisionDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateDevisionDto: UpdateDevisionDto,
+  ) {
     return this.devisionService.update(+id, updateDevisionDto);
   }
 
