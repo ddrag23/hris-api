@@ -1,3 +1,4 @@
+import { PaginationQuery } from 'src/entities/pagination';
 import { PrismaService } from './prisma.service';
 import { Injectable, Inject } from '@nestjs/common';
 
@@ -12,7 +13,9 @@ export class CrudService<T, K> {
   create(createPositionDto: T) {
     return this.prisma[this.model].create({ data: createPositionDto });
   }
-
+  findPaginate(pq: PaginationQuery) {
+    return this.prisma.paginationTransaction(this.model, pq, this.relation);
+  }
   findAll() {
     return this.prisma[this.model].findMany(
       this.relation ? { include: { ...this.relation } } : {},

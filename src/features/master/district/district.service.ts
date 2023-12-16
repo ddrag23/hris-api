@@ -1,26 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateDistrictDto } from './dto/create-district.dto';
 import { UpdateDistrictDto } from './dto/update-district.dto';
+import { CrudService } from 'src/service/crud.service';
+import { PrismaService } from 'src/service/prisma.service';
 
 @Injectable()
-export class DistrictService {
-  create(createDistrictDto: CreateDistrictDto) {
-    return 'This action adds a new district';
-  }
-
-  findAll() {
-    return `This action returns all district`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} district`;
-  }
-
-  update(id: number, updateDistrictDto: UpdateDistrictDto) {
-    return `This action updates a #${id} district`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} district`;
+export class DistrictService extends CrudService<
+  CreateDistrictDto,
+  UpdateDistrictDto
+> {
+  constructor(
+    protected prisma: PrismaService,
+    @Inject('model') model: string,
+  ) {
+    super(prisma, model);
   }
 }
