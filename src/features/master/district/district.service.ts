@@ -14,5 +14,6 @@ export class DistrictService extends CrudService<
     @Inject('model') model: string,
   ) {
     super(prisma, model);
+    this.relation = {city:true}
   }
 }

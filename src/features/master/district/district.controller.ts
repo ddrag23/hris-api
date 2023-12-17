@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { DistrictService } from './district.service';
 import { CreateDistrictDto } from './dto/create-district.dto';
@@ -22,7 +23,7 @@ export class DistrictController {
   }
 
   @Get()
-  findAll(@Param() pq: PaginationQuery) {
+  findPaginate(@Query() pq: PaginationQuery) {
     return this.districtService.findPaginate(pq);
   }
 
