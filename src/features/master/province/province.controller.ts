@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { ProvinceService } from './province.service';
 import { CreateProvinceDto } from './dto/create-province.dto';
 import { UpdateProvinceDto } from './dto/update-province.dto';
@@ -13,8 +22,8 @@ export class ProvinceController {
   }
 
   @Get()
-  findAll() {
-    return this.provinceService.findAll();
+  findAll(@Query() filter?: { condition: string }) {
+    return this.provinceService.findAll(filter && JSON.parse(filter.condition));
   }
 
   @Get(':id')
@@ -23,7 +32,10 @@ export class ProvinceController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProvinceDto: UpdateProvinceDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProvinceDto: UpdateProvinceDto,
+  ) {
     return this.provinceService.update(+id, updateProvinceDto);
   }
 

@@ -21,10 +21,11 @@ export class CrudService<T, K> {
       pq.where && JSON.parse(pq.where),
     );
   }
-  findAll() {
-    return this.prisma[this.model].findMany(
-      this.relation ? { include: { ...this.relation } } : {},
-    );
+  findAll(where?: Object) {
+    return this.prisma[this.model].findMany({
+      ...(this.relation && { include: { ...this.relation } }),
+      ...(where && { where }),
+    });
   }
 
   findOne(id: number) {
