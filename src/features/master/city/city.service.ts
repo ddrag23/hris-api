@@ -11,5 +11,6 @@ export class CityService extends CrudService<CreateCityDto, UpdateCityDto> {
     @Inject('model') model: string,
   ) {
     super(prisma, model);
+    this.relation = { province: true };
   }
 }

@@ -14,7 +14,12 @@ export class CrudService<T, K> {
     return this.prisma[this.model].create({ data: createPositionDto });
   }
   findPaginate(pq: PaginationQuery) {
-    return this.prisma.paginationTransaction(this.model, pq, this.relation);
+    return this.prisma.paginationTransaction(
+      this.model,
+      pq,
+      this.relation,
+      pq.where && JSON.parse(pq.where),
+    );
   }
   findAll() {
     return this.prisma[this.model].findMany(

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CityService } from './city.service';
 import { CreateCityDto } from './dto/create-city.dto';
@@ -22,7 +23,7 @@ export class CityController {
   }
 
   @Get()
-  findAll(@Param() pq: PaginationQuery) {
+  findAll(@Query() pq: PaginationQuery) {
     return this.cityService.findPaginate(pq);
   }
 

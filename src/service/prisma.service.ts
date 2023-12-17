@@ -11,11 +11,13 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     model: string,
     pq: PaginationQuery,
     relation?: Object,
-    where?: Object,
+    where?: any,
   ): Promise<Object> {
     let start = +pq.skip > 1 ? +pq.skip * +pq.take - +pq.take : 0;
     const totalData = await this[model].count();
     let pages = Math.ceil(totalData / +pq.take);
+    console.log(JSON.stringify(where));
+
     const data = await this[model].findMany({
       take: +pq.take,
       skip: start,
@@ -23,6 +25,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
         [pq.sortBy]: pq.sortType,
       },
       include: relation ? relation : {},
+      ...(where && { where }),
     });
     const currentPage = start / +pq.take + 1;
     return {

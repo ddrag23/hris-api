@@ -5,4 +5,5 @@ export class PaginationQuery {
   take: number;
   sortBy: string;
   sortType: Prisma.SortOrder;
+  where?: string;
 }
